@@ -1,0 +1,54 @@
+body {
+    min-height: 100vh;
+    display: flex;
+    background-color: #f4f6f9;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 240px;
+    background-color: #343a40;
+    color: white;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+.sidebar .nav-link {
+    color: white;
+    font-weight: 500;
+    padding: 12px 20px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+.sidebar .nav-link:hover {
+    background-color: #495057;
+    transform: scale(1.02);
+}
+
+/* Content */
+.content {
+    flex-grow: 1;
+    padding: 40px;
+}
+
+/* Cards */
+.dashboard-card {
+    border-radius: 15px;
+    color: white;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    cursor: pointer;
+}
+.dashboard-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+.dashboard-card .card-title {
+    margin-bottom: 10px;
+}
+
+/* Gradient backgrounds */
+.gradient-blue { background: linear-gradient(135deg, #1e3c72, #2a5298); }
+.gradient-green { background: linear-gradient(135deg, #11998e, #38ef7d); }
+.gradient-yellow { background: linear-gradient(135deg, #f7971e, #ffd200); }
+.gradient-purple {background: linear-gradient(135deg, #9d50bb, #6e48aa);}

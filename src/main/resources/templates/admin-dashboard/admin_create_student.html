@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Student</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/index1.css}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+</head>
+<body>
+
+<div th:replace="fragments/admin_sidebar :: adminSidebar('students')"></div>
+
+<div class="content p-4">
+    <h2 class="fw-bold mb-4">Add New Student</h2>
+
+    <form th:action="@{/admin/students}" th:object="${student}" method="post">
+        <div class="mb-3">
+            <label for="firstName" class="form-label">First Name</label>
+            <input type="text" th:field="*{firstName}" class="form-control" id="firstName" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="lastName" class="form-label">Last Name</label>
+            <input type="text" th:field="*{lastName}" class="form-control" id="lastName" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" th:field="*{email}" class="form-control" id="email" required>
+        </div>
+
+
+        <div class="mb-3">
+            <label for="teacher" class="form-label">Assign Teacher</label>
+            <select name="teacherId" class="form-select" id="teacher" required>
+                <option th:each="teacher : ${teachers}"
+                        th:value="${teacher.id}"
+                        th:text="${teacher.firstName + ' ' + teacher.lastName}">
+                </option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-success">
+            <i class="bi bi-save"></i> Save
+        </button>
+        <a th:href="@{/admin/students}" class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i> Cancel
+        </a>
+    </form>
+</div>
+
+</body>
+</html>

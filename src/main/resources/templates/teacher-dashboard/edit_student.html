@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Student</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/index1.css}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+</head>
+<body>
+
+<!-- Sidebar -->
+<div th:replace="fragments/sidebar :: teacherSidebar('dashboard')"></div>
+
+
+<!-- Main Content -->
+<div class="content p-4">
+    <h1 class="fw-bold mb-4">Edit Student</h1>
+    <div class="card p-4">
+        <form th:action="@{/teacher/crud-students/{id}(id=${student.id})}" th:object="${student}" method="POST">
+            <div class="mb-3">
+                <label class="form-label">First Name</label>
+                <input type="text" th:field="*{firstName}" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Last Name</label>
+                <input type="text" th:field="*{lastName}" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input type="email" th:field="*{email}" class="form-control">
+            </div>
+            <div class="d-flex justify-content-between">
+                <a th:href="@{/teacher/students}" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left"></i> Back
+                </a>
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-arrow-repeat"></i> Update
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

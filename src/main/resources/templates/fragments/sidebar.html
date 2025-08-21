@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="en">
+<body>
+<!-- Sidebar Fragment -->
+<div th:fragment="teacherSidebar(activePage)">
+    <div class="sidebar d-flex flex-column p-3">
+        <h2 class="text-center mb-4 fw-bold">Teacher</h2>
+
+        <div class="text-center mb-4 text-white" sec:authorize="isAuthenticated()">
+            Welcome, <strong sec:authentication="principal.firstName">Teacher</strong>
+        </div>
+
+        <ul class="nav nav-pills flex-column mb-auto">
+            <li class="nav-item mb-2">
+                <a th:href="@{/teacher/dashboard}"
+                   th:classappend="${activePage=='dashboard'} ? 'active'"
+                   class="nav-link d-flex align-items-center">
+                    <i class="bi bi-speedometer2 me-2"></i> Dashboard
+                </a>
+            </li>
+            <li class="nav-item mb-2">
+                <a th:href="@{/teacher/attendance/mark}"
+                   th:classappend="${activePage=='/attendance/mark'} ? 'active'"
+                   class="nav-link d-flex align-items-center">
+                    <i class="bi bi-calendar-check me-2"></i> Attendance
+                </a>
+            </li>
+            <li class="nav-item mb-2">
+                <a th:href="@{/teacher/students}"
+                   th:classappend="${activePage=='students'} ? 'active'"
+                   class="nav-link d-flex align-items-center">
+                    <i class="bi bi-people me-2"></i> Manage Students
+                </a>
+            </li>
+        </ul>
+
+        <div class="mt-auto" sec:authorize="isAuthenticated()">
+            <form th:action="@{/logout}" method="post">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                <button type="submit" class="btn btn-outline-light w-100">
+                    <i class="bi bi-box-arrow-right me-1"></i> Logout
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

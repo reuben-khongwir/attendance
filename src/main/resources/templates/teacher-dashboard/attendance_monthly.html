@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Mark Attendance</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/index1.css}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        .table-responsive {
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- Sidebar -->
+<div th:replace="fragments/sidebar :: teacherSidebar('dashboard')"></div>
+
+
+<!-- Main Content -->
+<div class="content p-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="fw-bold">Mark Attendance</h1>
+        <span class="text-muted" sec:authorize="isAuthenticated()">
+            Logged in as: <strong sec:authentication="principal.firstName">Teacher</strong>
+        </span>
+    </div>
+
+    <!-- Date Filter -->
+    <form method="get" th:action="@{/teacher/attendance/mark}" class="row g-3 mb-4 align-items-end">
+
+        <div class="col-auto">
+            <label for="year" class="form-label">Year</label>
+            <input type="number" id="year" name="year" th:value="${selectedYear}"
+                   class="form-control" min="2000" max="2100" required />
+        </div>
+
+        <div class="col-auto">
+            <label for="month" class="form-label">Month</label>
+            <select id="month" name="month" class="form-select" required>
+                <option th:value="1" th:text="'January'" th:selected="${selectedMonth == 1}"></option>
+                <option th:value="2" th:text="'February'" th:selected="${selectedMonth == 2}"></option>
+                <option th:value="3" th:text="'March'" th:selected="${selectedMonth == 3}"></option>
+                <option th:value="4" th:text="'April'" th:selected="${selectedMonth == 4}"></option>
+                <option th:value="5" th:text="'May'" th:selected="${selectedMonth == 5}"></option>
+                <option th:value="6" th:text="'June'" th:selected="${selectedMonth == 6}"></option>
+                <option th:value="7" th:text="'July'" th:selected="${selectedMonth == 7}"></option>
+                <option th:value="8" th:text="'August'" th:selected="${selectedMonth == 8}"></option>
+                <option th:value="9" th:text="'September'" th:selected="${selectedMonth == 9}"></option>
+                <option th:value="10" th:text="'October'" th:selected="${selectedMonth == 10}"></option>
+                <option th:value="11" th:text="'November'" th:selected="${selectedMonth == 11}"></option>
+                <option th:value="12" th:text="'December'" th:selected="${selectedMonth == 12}"></option>
+            </select>
+        </div>
+
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary fw-bold">
+                <i class="bi bi-search me-1"></i> Load
+            </button>
+        </div>
+
+    </form>
+
+    <!-- Attendance Form -->
+    <form method="post" th:action="@{/teacher/attendance/save}">
+        <input type="hidden" name="year" th:value="${selectedYear}" />
+        <input type="hidden" name="month" th:value="${selectedMonth}" />
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover align-middle">
+                <thead class="table-dark">
+                <tr>
+                    <th>SL No</th>
+                    <th>Student Name</th>
+                    <th th:each="date : ${monthDates}" th:text="${date.dayOfMonth}"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="student, stat : ${students}">
+                    <td th:text="${stat.index + 1}"></td>
+                    <td th:text="${student.firstName + ' ' + student.lastName}"></td>
+                    <td th:each="date : ${monthDates}" class="text-center">
+<!--                        <input type="checkbox"-->
+<!--                               th:name="${'attendance_' + student.id + '_' + date}"-->
+<!--                               th:checked="${attendanceMap[student.id][date] == 'PRESENT'}"/>-->
+<!--                        <input type="checkbox"-->
+<!--                               th:name="${'attendance_' + student.id + '_' + date}"-->
+<!--                               th:checked="${attendanceMap[student.id][date] == 'PRESENT'}"/>-->
+
+                        <input type="checkbox"
+                               th:name="${'attendance_' + student.id + '_' + #temporals.format(date, 'yyyy-MM-dd')}"
+                               th:checked="${attendanceMap[student.id][#temporals.format(date, 'yyyy-MM-dd')] == 'PRESENT'}"
+
+                        />
+                        <!--                               th:checked="${attendanceMap[student.id][date] == 'PRESENT'}"-->
+
+                    </td>
+<!--                    <td th:each="date : ${monthDates}" class="text-center">-->
+<!--                        <input type="checkbox"-->
+<!--                               th:name="${'attendance_' + student.id + '_' + date}"-->
+<!--                               th:checked="${attendanceMap[student.id][date.toString()] == 'PRESENT'}"/>-->
+<!--                    </td>-->
+
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="text-end">
+            <button type="submit" class="btn btn-success fw-bold">
+                <i class="bi bi-check2-circle me-1"></i> Save Attendance
+            </button>
+        </div>
+    </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

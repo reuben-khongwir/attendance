@@ -1,0 +1,61 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/index1.css}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+</head>
+<body>
+
+<!-- Sidebar include -->
+<div th:replace="fragments/admin_sidebar :: adminSidebar('dashboard')"></div>
+
+<!-- Main content -->
+<div class="content p-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="fw-bold">Admin Dashboard</h1>
+        <span class="text-muted" sec:authorize="isAuthenticated()">
+            Logged in as: <strong sec:authentication="principal.firstName">Admin</strong>
+        </span>
+    </div>
+
+    <div class="row g-4">
+        <!-- View Teachers Card -->
+        <div class="col-md-4">
+            <div class="card dashboard-card text-center p-4 gradient-blue">
+                <i class="bi bi-person-badge display-4 mb-3"></i>
+                <h5 class="card-title fw-bold">View Teachers</h5>
+                <p class="card-text">See the list of all registered teachers.</p>
+                <a th:href="@{/admin/teachers}" class="btn btn-light fw-bold">Go</a>
+            </div>
+        </div>
+
+        <!-- View Students Card -->
+        <div class="col-md-4">
+            <div class="card dashboard-card text-center p-4 gradient-green">
+                <i class="bi bi-people display-4 mb-3"></i>
+                <h5 class="card-title fw-bold">View Students</h5>
+                <p class="card-text">Check all registered students and their details.</p>
+                <a th:href="@{/admin/students}" class="btn btn-light fw-bold">Go</a>
+            </div>
+        </div>
+
+        <!-- Approve Teachers Card -->
+        <div class="col-md-4">
+            <div class="card dashboard-card text-center p-4 gradient-yellow">
+                <i class="bi bi-check2-square display-4 mb-3"></i>
+                <h5 class="card-title fw-bold">Approve Teachers</h5>
+                <p class="card-text">Approve new teacher registrations.</p>
+                <a th:href="@{/admin/pending-teachers}" class="btn btn-light fw-bold">Go</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

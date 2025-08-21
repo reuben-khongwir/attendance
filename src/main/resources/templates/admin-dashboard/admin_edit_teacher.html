@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Teacher</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/index1.css}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+</head>
+<body>
+
+<!-- Sidebar include -->
+<div th:replace="fragments/admin_sidebar :: adminSidebar('teachers')"></div>
+
+<!-- Content -->
+<div class="content p-4">
+    <h2 class="fw-bold mb-4">Edit Teacher</h2>
+
+    <form th:action="@{/admin/teacher/edit}" th:object="${teacherDto}" method="post">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+        <input type="hidden" th:field="*{id}" /> <!-- <<<<< add this -->
+        <div class="mb-3">
+            <label for="firstName" class="form-label">First Name</label>
+            <input type="text" th:field="*{firstName}" class="form-control" id="firstName" placeholder="Enter first name" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="lastName" class="form-label">Last Name</label>
+            <input type="text" th:field="*{lastName}" class="form-control" id="lastName" placeholder="Enter last name" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" th:field="*{email}" class="form-control" id="email" placeholder="Enter email" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="status" class="form-label">Account Status</label>
+            <select th:field="*{status}" class="form-select" id="status" required>
+                <option th:value="PENDING" th:selected="${teacherDto.status == T(com.spring.attendance.model.AccountStatus).PENDING}">Pending</option>
+                <option th:value="APPROVED" th:selected="${teacherDto.status == T(com.spring.attendance.model.AccountStatus).APPROVED}">Approved</option>
+                <option th:value="REJECTED" th:selected="${teacherDto.status == T(com.spring.attendance.model.AccountStatus).REJECTED}">Rejected</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+            <i class="bi bi-save"></i> Save Changes
+        </button>
+        <a th:href="@{/admin/teachers}" class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i> Cancel
+        </a>
+    </form>
+</div>
+
+</body>
+</html>

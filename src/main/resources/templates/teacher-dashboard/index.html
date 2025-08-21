@@ -1,0 +1,63 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Teacher Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/index1.css}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+</head>
+<body>
+
+<div th:replace="fragments/sidebar :: teacherSidebar('dashboard')"></div>
+
+<!-- Main content -->
+<div class="content p-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="fw-bold">Teacher Dashboard</h1>
+        <span class="text-muted" sec:authorize="isAuthenticated()">
+            Logged in as: <strong sec:authentication="principal.firstName">Teacher</strong>
+        </span>
+    </div>
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card dashboard-card text-center p-4 gradient-blue">
+                <i class="bi bi-calendar-check display-4 mb-3"></i>
+                <h5 class="card-title fw-bold">Attendance</h5>
+                <p class="card-text">Mark or view attendance for your students.</p>
+                <a th:href="@{/teacher/attendance/mark}" class="btn btn-light fw-bold">Go</a>
+            </div>
+        </div>
+<!--        <div class="col-md-4">-->
+<!--            <div class="card dashboard-card text-center p-4 gradient-yellow">-->
+<!--                <i class="bi bi-exclamation-circle display-4 mb-3"></i>-->
+<!--                <h5 class="card-title fw-bold">Complaints</h5>-->
+<!--                <p class="card-text">View or resolve student complaints.</p>-->
+<!--                <a th:href="@{/complaints}" class="btn btn-light fw-bold">Go</a>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="col-md-4">-->
+<!--            <div class="card dashboard-card text-center p-4 gradient-yellow">-->
+<!--                <i class="bi bi-person-plus display-4 mb-3"></i>-->
+<!--                <h5 class="card-title fw-bold">Edit Students</h5>-->
+<!--                <p class="card-text">Add new students to your class or records.</p>-->
+<!--                <a th:href="@{/teacher/crud-students/new}" class="btn btn-light fw-bold">Go</a>-->
+<!--            </div>-->
+<!--        </div>-->
+        <div class="col-md-4">
+            <div class="card dashboard-card text-center p-4 gradient-green">
+                <i class="bi bi-people display-4 mb-3"></i>
+                <h5 class="card-title fw-bold">Manage Students</h5>
+                <p class="card-text">Manage your students information</p>
+                <a th:href="@{/teacher/students}" class="btn btn-light fw-bold">Go</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>
