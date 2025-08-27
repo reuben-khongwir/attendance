@@ -14,7 +14,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
@@ -39,12 +41,18 @@ public class AdminController {
 
     // ------------------ Teacher Management ------------------
 
-    @GetMapping("/teachers")
-    public String listTeachers(Model model) {
+    @GetMapping("/teachers2")
+    public String listTeachers2(Model model) {
         List<User> teachers = userRepository.findByRoles_Name("TEACHER");
         model.addAttribute("teachers", teachers);
         return "/admin-dashboard/admin_teachers";
     }
+    @GetMapping("/teachers")
+    public String listTeachers() {
+        return "redirect:/admin/teachers/page/1";
+    }
+
+
 
     @GetMapping("/pending-teachers")
     public String listPendingTeachers(Model model) {
@@ -85,14 +93,32 @@ public class AdminController {
         return "redirect:/admin/teachers";
     }
 
-    // ------------------ Student Management ------------------
+    @GetMapping("/teachers/page/{pageNo}")
+    public String findPaginatedTeachers(@PathVariable(value = "pageNo") int pageNo, Model model) {
+        int pageSize = 3;
 
-    @GetMapping("/students")
-    public String listStudents(Model model) {
-        model.addAttribute("students", studentService.getAllStudents());
-        return "/admin-dashboard/admin_students";
+        Page<User> page = userService.findPaginatedTeachers(pageNo, pageSize);
+        List<User> teachers = page.getContent();
+
+        model.addAttribute("currentPage", pageNo);
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("totalItems", page.getTotalElements());
+        model.addAttribute("teachers", teachers);
+
+        return "/admin-dashboard/admin_teachers";
     }
 
+    // ------------------ Student Management ------------------
+
+//    @GetMapping("/students")
+//    public String listStudents(Model model) {
+//        model.addAttribute("students", studentService.getAllStudents());
+//        return "/admin-dashboard/admin_students";
+//    }
+    @GetMapping("/students")
+    public String listStudents() {
+        return "redirect:/admin/students/page/1";
+    }
     @GetMapping("/students/new")
     public String createStudentForm(Model model) {
         model.addAttribute("student", new StudentDto());
@@ -128,4 +154,22 @@ public class AdminController {
         studentService.deleteStudentByAdmin(id);
         return "redirect:/admin/students";
     }
+
+
+
+    @GetMapping("/students/page/{pageNo}")
+    public String findPaginatedStudents(@PathVariable(value = "pageNo") int pageNo, Model model) {
+        int pageSize = 3; // choose how many students per page
+
+        Page<StudentDto> page = studentService.findPaginatedStudents(pageNo, pageSize);
+        List<StudentDto> students = page.getContent();
+
+        model.addAttribute("currentPage", pageNo);
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("totalItems", page.getTotalElements());
+        model.addAttribute("students", students);
+
+        return "/admin-dashboard/admin_students";
+    }
+
 }

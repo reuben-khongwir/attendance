@@ -20,6 +20,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 @Service
 @RequiredArgsConstructor
@@ -76,6 +79,22 @@ public class UserService implements UserDetailsService {
     }
     public List<User> getAllTeachers() {
         return userRepository.findByRoles_NameAndStatus("TEACHER", AccountStatus.APPROVED);
+    }
+
+//    public Page<User> findPaginated(int pageNo, int pageSize){
+//
+//        Pageable pageable = PageRequest.of(pageNo -1, pageSize);
+//        return this.userRepository.findAll(pageable);
+//    }
+    public Page<User> findPaginated(int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
+        return this.userRepository.findAll(pageable);
+    }
+
+    //2.
+    public Page<User> findPaginatedTeachers(int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
+        return userRepository.findByRoles_NameAndStatus("TEACHER", AccountStatus.APPROVED, pageable);
     }
 
 }

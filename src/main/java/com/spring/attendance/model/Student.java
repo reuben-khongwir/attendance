@@ -25,7 +25,6 @@ public class Student {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    // 🔹 Attendance relationship
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
     private List<Attendance> attendanceRecords = new ArrayList<>();
 

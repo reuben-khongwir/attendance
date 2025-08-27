@@ -23,6 +23,8 @@ public class UserRegistrationController {
     public UserRegistrationDto userRegistrationDto(){
         return new UserRegistrationDto();
     }
+
+
     @GetMapping
     public String showRegistrationForm(Authentication authentication){
 //        model.addAttribute("user",new UserRegistrationDto());

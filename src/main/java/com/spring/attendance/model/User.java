@@ -37,10 +37,9 @@ public class User implements UserDetails {
     )
     private Collection<Role> roles;
 
-    // NEW: account status
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private AccountStatus status = AccountStatus.PENDING; // default for new users
+    private AccountStatus status = AccountStatus.PENDING;
 
     @Override
     public Collection<Role> getAuthorities() {
